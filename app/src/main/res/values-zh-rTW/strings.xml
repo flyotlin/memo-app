@@ -3,4 +3,5 @@
     <string name="app_info">讓每一天變得更好\nbeta 1.0</string>
     <string name="edittext_todo">要做些什麼...</string>
     <string name="button_addMemo">新增</string>
+    <string name="delete_button">刪除</string>
 </resources>

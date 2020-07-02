@@ -16,10 +16,10 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 // @auther: flyotlin on 2020.07.01
 
-// More function on each memo
 // Database
 // ItemTouchHelper
 public class MainActivity extends AppCompatActivity {
@@ -28,10 +28,10 @@ public class MainActivity extends AppCompatActivity {
     private Button addMemo;
 
     private RecyclerView memoRecyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private MyAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
 
-    private String[] dataset = {"ABCDDD", "2216sdf", "fdf1", "2216sdf", "fdf1", "2216sdf", "fdf1"};
+    private ArrayList<String> dataset = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,22 +53,10 @@ public class MainActivity extends AppCompatActivity {
         addMemo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateDataset();
-                updateRecyclerAdapter();
+                mAdapter.addMemo(toDo.getText().toString());
+                toDo.setText("");
             }
         });
-    }
-
-    private void updateDataset() {
-        int len = dataset.length;
-        String[] tmp = new String[len+1];
-        for(int i = 1; i <= len; i++) {
-            tmp[i] = dataset[i-1];
-        }
-        tmp[0] = toDo.getText().toString();
-        dataset = tmp;
-
-        toDo.setText("");
     }
 
     private void setRecyclerView() {
@@ -77,22 +65,9 @@ public class MainActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         memoRecyclerView.setLayoutManager(layoutManager);
 
-
-
-        mAdapter = new MyAdapter(dataset);
-
-
-        memoRecyclerView.setAdapter(mAdapter);
-
-
-    }
-
-    private void updateRecyclerAdapter() {
         mAdapter = new MyAdapter(dataset);
         memoRecyclerView.setAdapter(mAdapter);
     }
-
-
 
 
 
