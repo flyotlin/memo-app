@@ -19,6 +19,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="TextView"
+            android:scrollbars="vertical"
+
             android:textSize="24sp" />
 
         <Button
@@ -30,6 +32,7 @@
             android:text="X"
             android:textSize="24sp"
             android:textColor="#FFFFFF" />
+
     </LinearLayout>
 
 </LinearLayout>

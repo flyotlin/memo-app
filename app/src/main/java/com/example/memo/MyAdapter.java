@@ -1,12 +1,19 @@
 package com.example.memo;
 
 
+import android.app.Service;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
+import android.os.Vibrator;
+import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import androidx.annotation.NonNull;
@@ -55,14 +62,36 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         return mDataset;
     }
 
+//    ViewHolder Class
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView textView;
         public Button deleteButton;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+
+            initViews();
+            setListeners();
+        }
+
+        private void initViews() {
             textView = (TextView) itemView.findViewById(R.id.memo_view);
             deleteButton = (Button) itemView.findViewById(R.id.deleteButton);
+        }
+
+        private void setListeners() {
+            textView.setMovementMethod(new ScrollingMovementMethod());
+
+            textView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    makeToast(v);
+                    setVibrate(v);
+                    setCopyToClipBoard(v);
+
+                    return false;
+                }
+            });
 
             deleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -70,6 +99,23 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
                     removeMemo(getAdapterPosition());
                 }
             });
+        }
+
+        private void makeToast(View v) {
+            Toast.makeText(v.getContext(), "已複製: " + textView.getText().toString(), Toast.LENGTH_SHORT).show();
+        }
+
+        private void setVibrate(View v) {
+            Vibrator myVibrator = (Vibrator) v.getContext().getSystemService(Service.VIBRATOR_SERVICE); // 取得震動
+            myVibrator.vibrate(50);
+        }
+
+        private void setCopyToClipBoard(View v) {
+            String text = textView.getText().toString();
+
+            ClipboardManager clipboard = (ClipboardManager) v.getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+            ClipData clipData = ClipData.newPlainText(null, text);
+            clipboard.setPrimaryClip(clipData);
         }
     }
 
