@@ -7,28 +7,35 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <EditText
-        android:id="@+id/edittext_todo"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:autofillHints=""
-        android:ems="10"
-        android:hint="@string/edittext_todo"
-        android:inputType="textPersonName" />
+        android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/button_addMemo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="40dp"
-        android:layout_marginRight="40dp"
-        android:text="@string/button_addMemo" />
+        <EditText
+            android:id="@+id/edittext_todo"
+            android:layout_width="274dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:autofillHints=""
+            android:ems="10"
+            android:hint="@string/edittext_todo"
+            android:inputType="textPersonName" />
 
+        <Button
+            android:id="@+id/button_addMemo"
+            android:layout_width="100sp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="40dp"
+            android:layout_marginRight="40dp"
+            android:text="@string/button_addMemo" />
+
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/memoes"
-        android:layout_width="409dp"
+        android:layout_width="match_parent"
         android:layout_height="681dp" />
+
 
 </LinearLayout>

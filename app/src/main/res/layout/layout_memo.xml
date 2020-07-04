@@ -15,11 +15,11 @@
 
         <TextView
             android:id="@+id/memo_view"
-            android:layout_width="300sp"
+            android:layout_width="268dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:textSize="24sp"
-            android:text="TextView" />
+            android:text="TextView"
+            android:textSize="24sp" />
 
         <Button
             android:id="@+id/deleteButton"

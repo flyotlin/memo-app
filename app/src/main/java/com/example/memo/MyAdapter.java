@@ -51,6 +51,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         notifyDataSetChanged();
     }
 
+    public ArrayList<String> getDataset() {
+        return mDataset;
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView textView;
         public Button deleteButton;
@@ -68,5 +72,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             });
         }
     }
+
+
 }
 
