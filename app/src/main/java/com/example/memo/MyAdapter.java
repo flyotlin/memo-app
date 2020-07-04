@@ -34,7 +34,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     public MyAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LinearLayout memoLayout = (LinearLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_memo, parent, false);
         ViewHolder holder = new ViewHolder(memoLayout);
-
         return holder;
     }
 
@@ -69,7 +68,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-
             initViews();
             setListeners();
         }
@@ -81,18 +79,15 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
         private void setListeners() {
             textView.setMovementMethod(new ScrollingMovementMethod());
-
             textView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
                     makeToast(v);
                     setVibrate(v);
                     setCopyToClipBoard(v);
-
                     return false;
                 }
             });
-
             deleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -106,19 +101,17 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         }
 
         private void setVibrate(View v) {
-            Vibrator myVibrator = (Vibrator) v.getContext().getSystemService(Service.VIBRATOR_SERVICE); // 取得震動
+            Vibrator myVibrator = (Vibrator) v.getContext().getSystemService(Service.VIBRATOR_SERVICE);
             myVibrator.vibrate(50);
         }
 
         private void setCopyToClipBoard(View v) {
             String text = textView.getText().toString();
-
             ClipboardManager clipboard = (ClipboardManager) v.getContext().getSystemService(Context.CLIPBOARD_SERVICE);
             ClipData clipData = ClipData.newPlainText(null, text);
             clipboard.setPrimaryClip(clipData);
         }
     }
-
 
 }
 
