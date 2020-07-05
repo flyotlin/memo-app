@@ -20,7 +20,7 @@
             android:autofillHints=""
             android:ems="10"
             android:hint="@string/edittext_todo"
-            android:inputType="textPersonName" />
+            android:inputType="textNoSuggestions" />
 
         <Button
             android:id="@+id/button_addMemo"
@@ -32,10 +32,23 @@
 
     </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/memoes"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="681dp" />
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/memoes"
+                android:layout_width="match_parent"
+                android:layout_height="738dp">
+
+            </androidx.recyclerview.widget.RecyclerView>
+        </LinearLayout>
+    </ScrollView>
 
 
 </LinearLayout>

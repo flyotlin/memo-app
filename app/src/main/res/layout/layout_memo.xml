@@ -17,9 +17,9 @@
             android:layout_width="268dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="TextView"
-            android:scrollbars="vertical"
             android:background="?android:attr/selectableItemBackground"
+            android:scrollbars="vertical"
+            android:text="TextView"
             android:textSize="24sp" />
 
         <Button
@@ -29,8 +29,8 @@
             android:layout_weight="1"
             android:background="#FF0000"
             android:text="X"
-            android:textSize="24sp"
-            android:textColor="#FFFFFF" />
+            android:textColor="#FFFFFF"
+            android:textSize="24sp" />
 
     </LinearLayout>
 
