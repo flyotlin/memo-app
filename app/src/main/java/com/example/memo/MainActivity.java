@@ -7,8 +7,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -28,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<String> dataset = new ArrayList<>();
     private SharedPreferences database;
 
+    private DrawerLayout drawer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
         initArrayListDataset();
         setOnAddMemoClicked();
         setRecyclerView();
+        setNavigationDrawer();
+
     }
 
     private void initViews() {
@@ -77,6 +86,16 @@ public class MainActivity extends AppCompatActivity {
         memoRecyclerView.setAdapter(mAdapter);
     }
 
+    private void setNavigationDrawer() {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        drawer = findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+    }
+
     @Override
     protected void onStop() {
         super.onStop();
@@ -96,4 +115,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        if(drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
 }

@@ -4,4 +4,10 @@
     <string name="edittext_todo">想做些什麼...</string>
     <string name="button_addMemo">新增</string>
     <string name="delete_button">刪除</string>
+    <string name="nav_memo">Memo</string>
+    <string name="nav_done">完成</string>
+    <string name="nav_share">分享</string>
+    <string name="nav_send">傳送</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 </resources>
