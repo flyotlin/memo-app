@@ -78,8 +78,8 @@ public class MemoFragment extends Fragment {
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onPause() {
+        super.onPause();
         saveToDatabase();
     }
 
@@ -88,11 +88,15 @@ public class MemoFragment extends Fragment {
         database = getActivity().getPreferences(0);
         ArrayList<String> dataset = mAdapter.getDataset();
 
-        for (int i = 0; i < size; i++) {
-            database.edit()
-                    .putInt("size", size)
-                    .putString("memo" + i, dataset.get(i))
-                    .commit();
+        if (size == 0) {
+            database.edit().clear().commit();
+        } else {
+            for (int i = 0; i < size; i++) {
+                database.edit()
+                        .putInt("size", size)
+                        .putString("memo" + i, dataset.get(i))
+                        .commit();
+            }
         }
     }
 }

@@ -13,7 +13,12 @@ public class LoadingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loading);
 
+        hideActionbar();
         setTransferHandler();
+    }
+
+    private void hideActionbar() {
+        getSupportActionBar().hide();
     }
 
     private void setTransferHandler() {
