@@ -46,11 +46,6 @@ public class DoneAdapter extends RecyclerView.Adapter<DoneAdapter.ViewHolder> {
         return mDataset.size();
     }
 
-    public void addMemo(String str) {
-        mDataset.add(0, str);
-        notifyDataSetChanged();
-    }
-
     public void removeMemo(int position) {
         mDataset.remove(position);
         notifyDataSetChanged();
