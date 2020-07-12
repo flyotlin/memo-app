@@ -46,7 +46,7 @@ public class MemoFragment extends Fragment {
     }
 
     private void initArrayListDataset() {
-        database = getActivity().getPreferences(0); // ?
+        database = getActivity().getPreferences(0);
         int size = database.getInt("size", 0);
 
         if (size > 0) {
