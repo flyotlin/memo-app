@@ -46,7 +46,7 @@ public class MemoFragment extends Fragment {
     }
 
     private void initArrayListDataset() {
-        database = getActivity().getPreferences(0);
+        database = getActivity().getSharedPreferences("memos", 0);
         int size = database.getInt("size", 0);
 
         if (size > 0) {
@@ -80,12 +80,13 @@ public class MemoFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        saveToDatabase();
+        saveToMemoDatabase();
+        saveToDoneDatabase();
     }
 
-    private void saveToDatabase() {
+    private void saveToMemoDatabase() {
         int size = dataset.size();
-        database = getActivity().getPreferences(0);
+        database = getActivity().getSharedPreferences("memos", 0);
         ArrayList<String> dataset = mAdapter.getDataset();
 
         if (size == 0) {
@@ -97,6 +98,21 @@ public class MemoFragment extends Fragment {
                         .putString("memo" + i, dataset.get(i))
                         .commit();
             }
+        }
+    }
+
+    private void saveToDoneDatabase() {
+        ArrayList<String> dataset = mAdapter.getDoneDataset();
+        database = getActivity().getSharedPreferences("done", 0);
+
+        int database_size = database.getInt("size", 0);
+        int dataset_size = dataset.size();
+        int size = database_size + dataset_size;
+        for (int i = 0; i < dataset_size; i++) {
+            database.edit()
+                    .putInt("size", size)
+                    .putString("done" + (database_size + i), dataset.get(i))
+                    .commit();
         }
     }
 }

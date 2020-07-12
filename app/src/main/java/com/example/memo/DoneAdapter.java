@@ -21,24 +21,23 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
+public class DoneAdapter extends RecyclerView.Adapter<DoneAdapter.ViewHolder> {
     private ArrayList<String> mDataset;
-    private ArrayList<String> doneDataset = new ArrayList<String>();
 
-    public MyAdapter(ArrayList<String> myDataset) {
+    public DoneAdapter(ArrayList<String> myDataset) {
         this.mDataset = myDataset;
     }
 
     @NonNull
     @Override
-    public MyAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LinearLayout memoLayout = (LinearLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_memo, parent, false);
+    public DoneAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        LinearLayout memoLayout = (LinearLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_done, parent, false);
         ViewHolder holder = new ViewHolder(memoLayout);
         return holder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull DoneAdapter.ViewHolder holder, int position) {
         holder.textView.setText(mDataset.get(position));
     }
 
@@ -53,18 +52,12 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     }
 
     public void removeMemo(int position) {
-        doneDataset.add(mDataset.get(position));
-
         mDataset.remove(position);
         notifyDataSetChanged();
     }
 
     public ArrayList<String> getDataset() {
         return mDataset;
-    }
-
-    public ArrayList<String> getDoneDataset() {
-        return doneDataset;
     }
 
     //    ViewHolder Class
@@ -74,13 +67,13 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            initViews();
+            initViews(itemView);
             setListeners();
         }
 
-        private void initViews() {
-            textView = (TextView) itemView.findViewById(R.id.memo_view);
-            deleteButton = (Button) itemView.findViewById(R.id.deleteButton);
+        private void initViews(View itemView) {
+            textView = itemView.findViewById(R.id.done_view);
+            deleteButton = itemView.findViewById(R.id.done_deleteButton);
         }
 
         private void setListeners() {
