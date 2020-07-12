@@ -15,7 +15,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -61,7 +60,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         return mDataset;
     }
 
-//    ViewHolder Class
+    //    ViewHolder Class
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView textView;
         public Button deleteButton;

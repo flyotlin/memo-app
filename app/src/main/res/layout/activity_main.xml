@@ -7,8 +7,8 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
-    tools:openDrawer="start"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    tools:openDrawer="start">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,49 +24,10 @@
             android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-        <LinearLayout
+        <FrameLayout
+            android:id="@+id/fragment_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/edittext_todo"
-                android:layout_width="274dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:autofillHints=""
-                android:ems="10"
-                android:hint="@string/edittext_todo"
-                android:inputType="textNoSuggestions" />
-
-            <Button
-                android:id="@+id/button_addMemo"
-                android:layout_width="100sp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="40dp"
-                android:layout_marginRight="40dp"
-                android:text="@string/button_addMemo" />
-
-        </LinearLayout>
-
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="657dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/memoes"
-                    android:layout_width="match_parent"
-                    android:layout_height="738dp">
-
-                </androidx.recyclerview.widget.RecyclerView>
-
-            </LinearLayout>
-        </ScrollView>
+            android:layout_height="match_parent" />
     </LinearLayout>
 
     <com.google.android.material.navigation.NavigationView

@@ -1,123 +1,89 @@
 package com.example.memo;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.MotionEvent;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-
+import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
+import com.google.android.material.navigation.NavigationView;
 // @auther: flyotlin on 2020.07.01
 
 // ItemTouchHelper
-public class MainActivity extends AppCompatActivity {
-
-    private EditText toDo;
-    private Button addMemo;
-
-    private RecyclerView memoRecyclerView;
-    private MyAdapter mAdapter;
-    private RecyclerView.LayoutManager layoutManager;
-
-    private ArrayList<String> dataset = new ArrayList<>();
-    private SharedPreferences database;
-
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+    private Toolbar toolbar;
+    private NavigationView navigationView;
     private DrawerLayout drawer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         initViews();
-        initArrayListDataset();
-        setOnAddMemoClicked();
-        setRecyclerView();
-        setNavigationDrawer();
-
+        setActionbar();
+        setNavigationViewItemSelected();
+        setActionbarToggle();
+        checkSavedInstanceState(savedInstanceState);
     }
 
     private void initViews() {
-        toDo = (EditText) findViewById(R.id.edittext_todo);
-        addMemo = (Button) findViewById(R.id.button_addMemo);
-        memoRecyclerView = (RecyclerView) findViewById(R.id.memoes);
-    }
-
-    private void initArrayListDataset() {
-        database = getPreferences(0);
-        int size = database.getInt("size", 0);
-
-        if(size > 0) {
-            for(int i = 0; i < size; i++) {
-                String tmp = database.getString("memo" + i, "");
-                dataset.add(tmp);
-            }
-        }
-    }
-
-    private void setOnAddMemoClicked() {
-        addMemo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mAdapter.addMemo(toDo.getText().toString());
-                toDo.setText("");
-            }
-        });
-    }
-
-    private void setRecyclerView() {
-        memoRecyclerView.setHasFixedSize(true);
-
-        layoutManager = new LinearLayoutManager(this);
-        memoRecyclerView.setLayoutManager(layoutManager);
-
-        mAdapter = new MyAdapter(dataset);
-        memoRecyclerView.setAdapter(mAdapter);
-    }
-
-    private void setNavigationDrawer() {
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        toolbar = findViewById(R.id.toolbar);
+        navigationView = findViewById(R.id.nav_view);
         drawer = findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+    }
 
+    private void setActionbar() {
+        setSupportActionBar(toolbar);
+    }
+
+    private void setNavigationViewItemSelected() {
+        navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    private void setActionbarToggle() {
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        saveToDatabase();
-    }
-
-    private void saveToDatabase() {
-        int size = dataset.size();
-        database = getPreferences(0);
-        ArrayList<String> dataset = mAdapter.getDataset();
-
-        for(int i = 0; i < size; i++) {
-            database.edit()
-                    .putInt("size", size)
-                    .putString("memo" + i, dataset.get(i))
-                    .commit();
+    private void checkSavedInstanceState(Bundle savedInstanceState) {
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MemoFragment()).commit();
+            navigationView.setCheckedItem(R.id.nav_memo);
         }
     }
 
     @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        switch (menuItem.getItemId()) {
+            case R.id.nav_memo:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MemoFragment()).commit();
+                break;
+            case R.id.nav_done:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new DoneFragment()).commit();
+                break;
+            case R.id.nav_share:
+                Toast.makeText(this, "已分享", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.nav_send:
+                Toast.makeText(this, "已傳送", Toast.LENGTH_SHORT).show();
+                break;
+        }
+
+        drawer.closeDrawer(GravityCompat.START);
+
+        return true;
+    }
+
+    @Override
     public void onBackPressed() {
-        if(drawer.isDrawerOpen(GravityCompat.START)) {
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
