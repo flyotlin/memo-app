@@ -52,8 +52,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         notifyDataSetChanged();
     }
 
-    public void removeMemo(int position) {
-        doneDataset.add(mDataset.get(position));
+    public void removeMemo(int position, boolean saveToDone) {
+        if (saveToDone) {
+            doneDataset.add(mDataset.get(position));
+        }
 
         mDataset.remove(position);
         notifyDataSetChanged();
@@ -70,7 +72,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     //    ViewHolder Class
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView textView;
-        public Button deleteButton;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -80,7 +81,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
         private void initViews() {
             textView = (TextView) itemView.findViewById(R.id.memo_view);
-            deleteButton = (Button) itemView.findViewById(R.id.deleteButton);
         }
 
         private void setListeners() {
@@ -92,12 +92,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
                     setVibrate(v);
                     setCopyToClipBoard(v);
                     return false;
-                }
-            });
-            deleteButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    removeMemo(getAdapterPosition());
                 }
             });
         }
