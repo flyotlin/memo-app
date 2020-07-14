@@ -10,7 +10,6 @@ import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,7 +17,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
+import java.util.Calendar;
 
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
@@ -40,6 +42,12 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull MyAdapter.ViewHolder holder, int position) {
         holder.textView.setText(mDataset.get(position));
+
+        int year = Calendar.getInstance().get(Calendar.YEAR);
+        int month = Calendar.getInstance().get(Calendar.MONTH) + 1;
+        int date = Calendar.getInstance().get(Calendar.DATE);
+        String Date = year + "/" + month + "/" + date;
+        holder.memoDate.setText(Date);
     }
 
     @Override
@@ -72,6 +80,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     //    ViewHolder Class
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView textView;
+        public TextView memoDate;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -81,9 +90,15 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
         private void initViews() {
             textView = (TextView) itemView.findViewById(R.id.memo_view);
+            memoDate = (TextView) itemView.findViewById(R.id.memo_date);
         }
 
         private void setListeners() {
+            setLongClickListener(textView);
+            setLongClickListener(memoDate);
+        }
+
+        private void setLongClickListener(TextView textView) {
             textView.setMovementMethod(new ScrollingMovementMethod());
             textView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
