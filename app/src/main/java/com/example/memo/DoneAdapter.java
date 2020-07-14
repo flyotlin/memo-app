@@ -23,7 +23,6 @@ import java.util.ArrayList;
 
 public class DoneAdapter extends RecyclerView.Adapter<DoneAdapter.ViewHolder> {
     private ArrayList<String> mDataset;
-    private TextView doneNumber;
 
     public DoneAdapter(ArrayList<String> myDataset) {
         this.mDataset = myDataset;
