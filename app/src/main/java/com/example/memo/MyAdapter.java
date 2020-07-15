@@ -25,10 +25,12 @@ import java.util.Calendar;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     private ArrayList<String> mDataset;
+    private ArrayList<String> dateDataset;
     private ArrayList<String> doneDataset = new ArrayList<String>();
 
-    public MyAdapter(ArrayList<String> myDataset) {
+    public MyAdapter(ArrayList<String> myDataset, ArrayList<String> dateDataset) {
         this.mDataset = myDataset;
+        this.dateDataset = dateDataset;
     }
 
     @NonNull
@@ -42,12 +44,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull MyAdapter.ViewHolder holder, int position) {
         holder.textView.setText(mDataset.get(position));
-
-        int year = Calendar.getInstance().get(Calendar.YEAR);
-        int month = Calendar.getInstance().get(Calendar.MONTH) + 1;
-        int date = Calendar.getInstance().get(Calendar.DATE);
-        String Date = year + "/" + month + "/" + date;
-        holder.memoDate.setText(Date);
+        holder.memoDate.setText(dateDataset.get(position));
     }
 
     @Override
@@ -55,8 +52,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         return mDataset.size();
     }
 
-    public void addMemo(String str) {
+    public void addMemo(String str, String date) {
         mDataset.add(0, str);
+        dateDataset.add(0, date);
         notifyDataSetChanged();
     }
 
@@ -66,11 +64,16 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         }
 
         mDataset.remove(position);
+        dateDataset.remove(position);
         notifyDataSetChanged();
     }
 
     public ArrayList<String> getDataset() {
         return mDataset;
+    }
+
+    public ArrayList<String> getDateDataset() {
+        return dateDataset;
     }
 
     public ArrayList<String> getDoneDataset() {

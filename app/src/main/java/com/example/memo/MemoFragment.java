@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.zip.Inflater;
 
 public class MemoFragment extends Fragment {
@@ -28,6 +29,7 @@ public class MemoFragment extends Fragment {
     private RecyclerView.LayoutManager layoutManager;
 
     private ArrayList<String> dataset = new ArrayList<>();
+    private ArrayList<String> dateDataset = new ArrayList<>();
     private SharedPreferences database;
 
     @Nullable
@@ -49,6 +51,7 @@ public class MemoFragment extends Fragment {
     }
 
     private void initArrayListDataset() {
+//        Memo
         database = getActivity().getSharedPreferences("memos", 0);
         int size = database.getInt("size", 0);
 
@@ -58,13 +61,29 @@ public class MemoFragment extends Fragment {
                 dataset.add(tmp);
             }
         }
+
+//        Date
+        database = getActivity().getSharedPreferences("date", 0);
+        size = database.getInt("size", 0);
+
+        if (size > 0) {
+            for (int i = 0; i < size; i++) {
+                String tmp = database.getString("memo" + i, "");
+                dateDataset.add(tmp);
+            }
+        }
     }
 
     private void setOnAddMemoClicked() {
         addMemo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mAdapter.addMemo(toDo.getText().toString());
+                int year = Calendar.getInstance().get(Calendar.YEAR);
+                int month = Calendar.getInstance().get(Calendar.MONTH) + 1;
+                int date = Calendar.getInstance().get(Calendar.DATE);
+                String Date = year + "/" + month + "/" + date;
+
+                mAdapter.addMemo(toDo.getText().toString(), Date);
                 toDo.setText("");
             }
         });
@@ -76,7 +95,7 @@ public class MemoFragment extends Fragment {
         layoutManager = new LinearLayoutManager(getContext());
         memoRecyclerView.setLayoutManager(layoutManager);
 
-        mAdapter = new MyAdapter(dataset);
+        mAdapter = new MyAdapter(dataset, dateDataset);
         memoRecyclerView.setAdapter(mAdapter);
 
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
@@ -89,19 +108,19 @@ public class MemoFragment extends Fragment {
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 int position = viewHolder.getAdapterPosition();
                 if (direction == ItemTouchHelper.LEFT) {
-                    mAdapter.removeMemo(position, true);
-                } else if (direction == ItemTouchHelper.RIGHT) {
                     mAdapter.removeMemo(position, false);
+                } else if (direction == ItemTouchHelper.RIGHT) {
+                    mAdapter.removeMemo(position, true);
                 }
             }
         }).attachToRecyclerView(memoRecyclerView);
-
     }
 
     @Override
     public void onPause() {
         super.onPause();
         saveToMemoDatabase();
+        saveToDateDatabase();
         saveToDoneDatabase();
     }
 
@@ -109,6 +128,23 @@ public class MemoFragment extends Fragment {
         int size = dataset.size();
         database = getActivity().getSharedPreferences("memos", 0);
         ArrayList<String> dataset = mAdapter.getDataset();
+
+        if (size == 0) {
+            database.edit().clear().commit();
+        } else {
+            for (int i = 0; i < size; i++) {
+                database.edit()
+                        .putInt("size", size)
+                        .putString("memo" + i, dataset.get(i))
+                        .commit();
+            }
+        }
+    }
+
+    private void saveToDateDatabase() {
+        int size = dataset.size();
+        database = getActivity().getSharedPreferences("date", 0);
+        ArrayList<String> dataset = mAdapter.getDateDataset();
 
         if (size == 0) {
             database.edit().clear().commit();
